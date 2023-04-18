@@ -14,6 +14,12 @@ function Forgotpassword() {
     });
   };
 
+  const showToastMessageone = (data) => {
+    toast.error(data, {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
   function handleSubmit(values) {
     axios({
       method: "POST",
@@ -24,7 +30,11 @@ function Forgotpassword() {
     })
       .then((response) => {
         console.log(response.data);
-        showToastMessage(response.data.message);
+        if (response.data.message === "User not found with this user name or email") {
+          showToastMessageone(response.data.message);
+        }else{
+          showToastMessage(response.data.message);
+        }
       })
       .catch((error) => {
         console.log(error.response);
@@ -84,7 +94,7 @@ function Forgotpassword() {
               <button type="submit" className="login-from-btn">
                 Reset Password
               </button>
-              <ToastContainer />
+              {/* <ToastContainer /> */}
             </form>
 
             <div class="row mt-4">

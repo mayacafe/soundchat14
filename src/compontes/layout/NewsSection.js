@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment-timezone";
 import { Swiper, SwiperSlide } from "swiper/react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
@@ -9,14 +10,12 @@ import Col from "react-bootstrap/Col";
 import img4 from "../../asstes/images/adv2.jpg";
 import { FiArrowRight } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-import moment from "moment";
 import axios from "axios";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import { ThreeDots } from "react-loader-spinner";
 import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 export default function NewsSection() {
   const { promiseInProgress } = usePromiseTracker();
-  // console.log(promiseInProgress);
   const [StoriesApiCall, setStoriesApiCall] = useState([]);
   const [HomeTimelineApiCall, setHomeTimelineApiCall] = useState([]);
   const [RandomFinal, setRandomFinal] = useState([]);
@@ -52,7 +51,8 @@ export default function NewsSection() {
     }
   }, [StoriesApiCall]);
   //console.log(HomeTimelineApiCall, "ook");
-  const day = moment().format("dddd");
+  const day = moment().tz("America/Detroit").format("dddd");
+  const time = moment().tz("America/Detroit").format("HH:mm");
   const state = {
     responsive: {
       0: {
@@ -141,19 +141,18 @@ export default function NewsSection() {
                     <OwlCarousel
                       items={6}
                       className="owl-carousel owl-theme "
-                      // loop
-                      nav
-                      autoplay={true}
+                      autoplay={false}
                       dots={false}
                       touchDrag={true}
                       lazyLoad={true}
-                      responsive={state.responsive} // add this line
+                      responsive={state.responsive} 
                       margin={20}
                     >
                       {LiveShowsData.map((element) => {
                         return (
                           <>
-                            <NavLink to="/Podcat">
+                          {((time)<=element.show_start_date)  ? 
+                          ( <NavLink to="/PodcastList">
                               <div className="live-podcast">
                                 <img
                                   src={
@@ -163,7 +162,11 @@ export default function NewsSection() {
                                   alt="img-error"
                                 />
                               </div>
-                            </NavLink>
+                            </NavLink>) 
+                            :
+                             (<></>)
+                             }
+                           
                           </>
                         );
                       })}

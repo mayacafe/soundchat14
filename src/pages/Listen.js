@@ -85,8 +85,8 @@ function ListenSection() {
           let currenttime = time.split(":");
           console.log(starttime[0], endtime[0], currenttime[0], time, "sdghfg");
           if (
-            parseInt(starttime[0]) < parseInt(currenttime[0]) &&
-            parseInt(endtime[0]) > parseInt(currenttime[0])
+            parseInt(starttime[0]) <= parseInt(currenttime[0]) &&
+            parseInt(endtime[0]) >= parseInt(currenttime[0])
           ) {
             console.log("okay");
             setShowTimeData({

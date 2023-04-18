@@ -20,6 +20,7 @@ import download1 from "../asstes/images/download1.jpg";
 export default function Podcat() {
   const { promiseInProgress } = usePromiseTracker();
   const day = moment().tz("America/Detroit").format("dddd");
+  console.log(day, "day")
   const time = moment().tz("America/Detroit").format("HH:mm");
   const [UpcomingShow, setUpcomingShow] = useState([]);
   const [MondayPodcast, setMondayPodcast] = useState([]);
@@ -40,13 +41,13 @@ export default function Podcat() {
         )
         .then((response) => {
           setUpcomingShow(response.data.data);
-          setMondayPodcast(response.data.data[6].shows);
-          setThusedayPodcast(response.data.data[5].shows);
-          setWednesdayPodcast(response.data.data[4].shows);
-          setThursdayPodcast(response.data.data[3].shows);
-          setFridaydayPodcast(response.data.data[2].shows);
-          setSaturdayPodcast(response.data.data[1].shows);
-          setSundaydayPodcast(response.data.data[0].shows);
+          setMondayPodcast(response.data.data[6].scheduleperdays);
+          setThusedayPodcast(response.data.data[5].scheduleperdays);
+          setWednesdayPodcast(response.data.data[4].scheduleperdays);
+          setThursdayPodcast(response.data.data[3].scheduleperdays);
+          setFridaydayPodcast(response.data.data[2].scheduleperdays);
+          setSaturdayPodcast(response.data.data[1].scheduleperdays);
+          setSundaydayPodcast(response.data.data[0].scheduleperdays);
         })
         .catch((error) => {
           console.log(error);
@@ -173,12 +174,12 @@ export default function Podcat() {
                 </div>
 
                 <Tabs
-                  defaultActiveKey="monday"
+                  defaultActiveKey={day}
                   transition={false}
                   id="noanim-tab-example"
                   className="mb-3"
                 >
-                  <Tab eventKey="monday" title="Monday">
+                  <Tab eventKey="Monday" title="Monday">
                     <Row>
                       {MondayPodcast.map((mondaydata) => {
                         return (
@@ -188,7 +189,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {mondaydata.show_image === null ? (
+                                      {((mondaydata.show_image === null) || (mondaydata.show_image === undefined) || (mondaydata.show_image === ""))? (
                                         <>
                                           <img
                                             src={download1}
@@ -223,7 +224,7 @@ export default function Podcat() {
                     </Row>
                   </Tab>
 
-                  <Tab eventKey="thuseday" title="Thuseday">
+                  <Tab eventKey="Tuesday" title="Tuesday">
                     <Row>
                       {ThusedayPodcast.map((Thusedaydata) => {
                         return (
@@ -233,7 +234,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Thusedaydata.show_image === null ? (
+                                      {((Thusedaydata.show_image === null) || (Thusedaydata.show_image === undefined) || (Thusedaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}
@@ -252,7 +253,7 @@ export default function Podcat() {
                                     </div>
                                     <div className="podcast-bo-box">
                                       <h6>{Thusedaydata.show_name}</h6>
-                                      <p>Thuseday</p>
+                                      <p>Tuesday</p>
                                       <p>
                                         Live At : {Thusedaydata.show_start_date}{" "}
                                         -{Thusedaydata.show_end_date}
@@ -268,7 +269,7 @@ export default function Podcat() {
                     </Row>
                   </Tab>
 
-                  <Tab eventKey="wednesday" title="Wednesday">
+                  <Tab eventKey="Wednesday" title="Wednesday">
                     <Row>
                       {WednesdayPodcast.map((Wednesdaydata) => {
                         return (
@@ -278,7 +279,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Wednesdaydata.show_image === null ? (
+                                      {((Wednesdaydata.show_image === null) || (Wednesdaydata.show_image === undefined) || (Wednesdaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}
@@ -314,7 +315,7 @@ export default function Podcat() {
                     </Row>
                   </Tab>
 
-                  <Tab eventKey="thursday" title="Thursday">
+                  <Tab eventKey="Thursday" title="Thursday">
                     <Row>
                       {ThursdayPodcast.map((Thursdaydata) => {
                         return (
@@ -324,7 +325,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Thursdaydata.show_image === null ? (
+                                      {((Thursdaydata.show_image === null) || (Thursdaydata.show_image === undefined) || (Thursdaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}
@@ -358,7 +359,7 @@ export default function Podcat() {
                       })}
                     </Row>
                   </Tab>
-                  <Tab eventKey="friday" title="Friday">
+                  <Tab eventKey="Friday" title="Friday">
                     <Row>
                       {FridaydayPodcast.map((Fridaydaydata) => {
                         return (
@@ -368,7 +369,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Fridaydaydata.show_image === null ? (
+                                      {((Fridaydaydata.show_image === null) || (Fridaydaydata.show_image === undefined) || (Fridaydaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}
@@ -403,17 +404,19 @@ export default function Podcat() {
                       })}
                     </Row>
                   </Tab>
-                  <Tab eventKey="saturday" title="Saturday">
+                  <Tab eventKey="Saturday" title="Saturday">
                     <Row>
                       {SaturdayPodcast.map((Saturdaydata) => {
                         return (
                           <>
                             <Col xs={6} sm={6} md={6} lg={3}>
+                        
+
                               <NavLink to="/PodcastList">
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Saturdaydata.show_image === null ? (
+                                      {((Saturdaydata.show_image === null) || (Saturdaydata.show_image === undefined) || (Saturdaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}
@@ -447,7 +450,7 @@ export default function Podcat() {
                       })}
                     </Row>
                   </Tab>
-                  <Tab eventKey="sunday" title="Sunday">
+                  <Tab eventKey="Sunday" title="Sunday">
                     <Row>
                       {SundayPodcast.map((Sundaydata) => {
                         return (
@@ -457,7 +460,7 @@ export default function Podcat() {
                                 <div className="podcast-vo-div">
                                   <div className="podcast-bo-div">
                                     <div className="pod-img">
-                                      {Sundaydata.show_image === null ? (
+                                      {((Sundaydata.show_image === null) || (Sundaydata.show_image === undefined) || (Sundaydata.show_image === "")) ? (
                                         <>
                                           <img
                                             src={download1}

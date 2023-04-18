@@ -12,7 +12,6 @@ import axios from "axios";
 
 export default function Shop() {
   const { promiseInProgress } = usePromiseTracker();
-  console.log(promiseInProgress);
   const [ShopDetails, setShopDetails] = useState([]);
   useEffect(() => {
     trackPromise(

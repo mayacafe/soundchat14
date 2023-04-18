@@ -46,7 +46,7 @@ function HeaderBottamSection() {
                       Recap Tv
                     </NavLink>
                     <NavLink to="/Podcat" className="header-menu">
-                      Podcat
+                      Podcast
                     </NavLink>
                     <NavLink to="/Shop" className="header-menu">
                       Shop

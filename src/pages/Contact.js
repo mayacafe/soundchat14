@@ -75,9 +75,12 @@ export default function Contact() {
                           <BsTelephoneForward />
                         </i>
                         <span class="contact-text phone">
-                          <Link to="/#" title="Give me a call">
+                          <a href="tel://(347)-514-7520" data-rel="external">
                             (347)-514-7520
-                          </Link>
+                          </a>
+                          {/* <Link to="/#" title="Give me a call">
+                            (347)-514-7520
+                          </Link> */}
                         </span>
                       </li>
 
@@ -86,10 +89,8 @@ export default function Contact() {
                           <BsEnvelopeOpen />
                         </i>
                         <span class="contact-text gmail">
-                          <Link to="/#" title="Send me an email">
-                            mailto:info@soundchatradio.com,irishandchin
-                            {/* <br></br>
-                            <h5></h5> */}
+                          <Link to="#" title="Send me an email">
+                            info@soundchatradio.com
                           </Link>
                         </span>
                       </li>
@@ -111,11 +112,16 @@ export default function Contact() {
                           <BsTelephoneForward />
                         </i>
                         <span class="contact-text phone">
-                          <Link to="/#" title="Give me a call">
+                          <a href="tel://(879)-665-5526" data-rel="external">
+                            {" "}
+                            +1 (879)-665-5526,
+                          </a>
+                          <a href="tel://(347)-514-7520" data-rel="external">
+                            (347)-514-7520
+                          </a>
+                          {/* <Link to="/#" title="Give me a call">
                             +1(879)-665-5526,(347)-514-7520
-                            {/* <br></br>
-                            <h5> </h5> */}
-                          </Link>
+                          </Link> */}
                         </span>
                       </li>
 
@@ -124,8 +130,8 @@ export default function Contact() {
                           <BsEnvelopeOpen />
                         </i>
                         <span class="contact-text gmail">
-                          <Link to="/#" title="Send me an email">
-                            mailto:irishandchin@gmail.com
+                          <Link to="#" title="Send me an email">
+                            irishandchin@gmail.com
                           </Link>
                         </span>
                       </li>
@@ -142,7 +148,14 @@ export default function Contact() {
 
                     <hr />
                     <ul class="social-media-list">
-                      <li>
+                      <li
+                        onClick={() => {
+                          window.open(
+                            "https://www.facebook.com/irishandchin",
+                            "_blank"
+                          );
+                        }}
+                      >
                         <a href="#" target="_blank" class="contact-icon">
                           <i>
                             {" "}
@@ -150,21 +163,42 @@ export default function Contact() {
                           </i>
                         </a>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          window.open(
+                            "https://www.instagram.com/irishandchin/",
+                            "_blank"
+                          );
+                        }}
+                      >
                         <a href="#" target="_blank" class="contact-icon">
                           <i>
                             <ImInstagram />
                           </i>
                         </a>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          window.open(
+                            "https://twitter.com/irishandchin",
+                            "_blank"
+                          );
+                        }}
+                      >
                         <a href="#" target="_blank" class="contact-icon">
                           <i>
                             <ImTwitter />
                           </i>
                         </a>
                       </li>
-                      <li>
+                      <li
+                        onClick={() => {
+                          window.open(
+                            "https://www.youtube.com/channel/UC_JmuNpM4M4wqxoUeBSOMJw/videos",
+                            "_blank"
+                          );
+                        }}
+                      >
                         <a href="#" target="_blank" class="contact-icon">
                           <i>
                             <ImYoutube />

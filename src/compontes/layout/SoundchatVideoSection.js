@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import ReactPlayer from "react-player";
 import { HiUser } from "react-icons/hi";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { trackPromise, usePromiseTracker } from "react-promise-tracker";
@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 
 export default function SoundchatVideoSection(props) {
+  const navigate = useNavigate()
   // const { promiseInProgress } = usePromiseTracker();
   const showToastMessage = (data) => {
     toast.success(data, {
@@ -79,6 +80,7 @@ export default function SoundchatVideoSection(props) {
     onSubmit: (values) => {
       handleSubmit(values);
       formik.resetForm();
+      navigate("/Chatting")
     },
   });
 
@@ -113,7 +115,7 @@ export default function SoundchatVideoSection(props) {
             </Col>
             <Col xs={12} md={6} lg={3}>
               <div className="chat-user">
-                <NavLink to="/Chatting" target="_blank">
+                <NavLink to="/Login">
                   <button className="btn-div-chat-login">Login to chat</button>
                 </NavLink>
                 <br /> <br />
@@ -134,7 +136,7 @@ export default function SoundchatVideoSection(props) {
                       // class="form__input"
                     />
                      {formik.errors.username && formik.touched.username && (
-                        <p className="errormessage">{formik.errors.username}</p>
+                        <p className="errormessage mt-3">{formik.errors.username}</p>
                       )}
                      <br />
                   <button type="submit"  className="btn-div-chat-login new-user-chat-010">

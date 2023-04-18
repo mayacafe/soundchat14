@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState} from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
@@ -26,6 +26,12 @@ function Login() {
     });
   };
 
+
+  const getItem_User =   JSON.parse(localStorage.getItem("username"))
+  const getItem_Password =   JSON.parse(localStorage.getItem("password"))
+  const getItem_Checked = JSON.parse(localStorage.getItem("isCheck"))
+  console.log(getItem_Checked, "ok")
+
   function handleSubmit(values) {
     trackPromise(
     axios({
@@ -34,14 +40,14 @@ function Login() {
       data: {
         mobileno: values.mobileno,
         password: values.password,
+        isChecked : values.isChecked
       },
       headers: {
         Accept: "application/json",
       },
     })
       .then((response) => {
-        console.log(response.data.accessToken);
-
+        console.log(response.data , "ok");
         if (response.data.status === 400) {
           showToastMessageone(response.data.message);
           localStorage.removeItem("accessToken");
@@ -52,6 +58,10 @@ function Login() {
             JSON.stringify(response.data.accessToken)
           );
         }
+        localStorage.setItem("username", JSON.stringify(values.mobileno))
+        localStorage.setItem("password", JSON.stringify(values.password))
+        localStorage.setItem("isCheck", JSON.stringify(values.isChecked))
+
       })
       .catch((error) => {
         console.log(error.response);
@@ -60,10 +70,14 @@ function Login() {
   }
 
   const formik = useFormik({
-    initialValues: {
+    initialValues:(getItem_Checked)? {
+      mobileno: getItem_User,
+      password: getItem_Password,
+      isChecked: getItem_Checked,
+    }:{
       mobileno: "",
       password: "",
-      rememberMe: false
+      isChecked: false,
     },
     validationSchema: Yup.object({
       mobileno: Yup.string()
@@ -81,7 +95,6 @@ function Login() {
     }),
     onSubmit: (values) => {
       // console.log(values)
-      const value = values.type === 'checkbox' ? values.checked : values.value;
       handleSubmit(values);
       formik.resetForm();
       //  alert(JSON.stringify(values, null, 2));
@@ -185,10 +198,10 @@ function Login() {
                       <div className="rember">
                         <input
                           type="checkbox"
-                          name="remember_me"
+                          name="isChecked"
                           id="remember_me"
-                          class=""
-                          value={formik.values.value}
+                          checked={formik.values.isChecked}
+                          value={formik.values.isChecked}
                           onChange={formik.handleChange}
                         />
                         <label for="remember_me">Remember Me!</label>
