@@ -1,0 +1,134 @@
+.podcast-heading h4{
+  text-align: left;
+  color: white;
+  font-size: 18px;
+  padding: 16px 0px;
+}
+.show-days-div {
+  margin: 20px 0px 46px 0px;
+}
+.show-day h5{
+  color: white;
+  font-size: 16px;
+}
+.podcast-vo-div{
+  width: 300px;
+  height: 230px;
+  margin: 15px 0px 0px 0px;
+  border: 2px solid #ffc107;
+  border-radius: 17px;
+}
+
+.pod-img img {
+  width: 100%;
+  border-radius: 14px 14px 0px 0px;
+  height: 150px;
+  object-fit: cover;
+}
+.podcast-bo-box {
+  padding: 6px;
+  text-align: center;
+  border-radius: 0px 0px 14px 14px;
+}
+.podcast-bo-box > h6 {
+  font-size: 15px;
+  color: #ffc107;
+}
+.podcast-bo-box > p {
+  color: white;
+  font-size: 13px;
+}
+
+
+.heading-h4-div h4 {
+  margin-top: 5px;
+  margin-bottom: 17px;
+  font-size: 23px;
+  font-weight: 600;
+  color: white;
+}
+.podcast-box {
+  margin-bottom: 42px;
+}
+.podcast-bottam>.nav-tabs{
+  background-color: #ffffff;
+}
+
+.podcast-bottam .nav-tabs .nav-link.active {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  color: #dc3545 !important;
+  border-bottom: 2px solid #dc3545;
+}
+.podcast-bottam .nav-tabs:focus {
+  display: none;
+}
+.podcast-bottam>.nav-tabs .nav-item {
+  padding: 13px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: auto;
+  text-align: center;
+  color: #000!important;
+  background-color: transparent;
+}
+
+.podcast-img {
+  padding-top: 15px;
+}
+.podcast-img img {
+  width: 120px !important;
+  border-radius: 50%;
+  height: 120px;
+  border: 4px solid #fff;
+}
+.podcast-box h6 {
+  color: white;
+  text-align: center;
+  font-size: 15px;
+    padding-top: 9px;
+}
+.div-podcast {
+  text-align: center !important;
+  color: red;
+  font-size: 15px;
+    font-weight: 600;
+
+}
+.pera-podcast {
+  text-align: center;
+  line-height: 0px;
+}
+
+.podcast-bottam-div {
+  width: 100%;
+  display: flex;
+  margin-bottom: 18px;
+  margin-top: 10px;
+}
+.podcast-bottam-head {
+  width: 19%;
+  background-color: #d71a1a;
+  color: white;
+  padding: 4px 9px;
+}
+.podcast-bottam-head > h5 {
+  text-align: left;
+  font-size: 20px;
+  padding: 10px 0px;
+  margin-bottom: 0px;
+}
+.podcast-bottam-head-div {
+  width: 85%;
+  background-color: #504545d1;
+  color: white;
+  padding: 13px 17px;
+}
+.podcast-bottam-head-div > h5 {
+  font-size: 20px;
+}
+
+
+
+
