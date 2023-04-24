@@ -20,6 +20,9 @@ export default function RecapViewMoreVideo() {
       <section className="bg-color">
         <div className="view-more-sect-div">
           <div className="container-fluid">
+          <div className="news-heading bg-div-color">
+              <h5>{data.state.title}</h5>
+            </div>
             <Row>
               {RelatedVideo.map((element) => {
                 return (

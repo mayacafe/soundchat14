@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -8,12 +8,36 @@ import { FaRegUser } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import shop6 from "../../../src/asstes/images/shop6.jpg";
 function HeaderBottamSection() {
+  const jsonItems = JSON.parse(localStorage.getItem("card"));
+  const [ListingCartPop, setListingCartPop] = useState([]);
+  const [totalamount, settotalamount] = useState("")
+  const [quantityData, setquantityData] = useState(0)
+  const [count, setcount] = useState(0);
   const [data, setData] = useState(false);
   const [showText, setShowText] = useState(true);
   const onClick = () => {
     if (showText === false) setShowText(true);
     else setShowText(false);
   };
+  useEffect(() => {
+    if (jsonItems) {
+       setcount(jsonItems.cart_items.length);
+      setListingCartPop(jsonItems.cart_items);
+    } else {
+      setcount(0);
+    }
+  }, []);
+
+  useEffect(()=>{
+    var total = 0
+    var quantity = 0
+     for (var i = 0; i<ListingCartPop.length; i++) {
+       quantity =quantity+ parseInt(ListingCartPop[i].quantity)
+       total =total +((parseInt(ListingCartPop[i].quantity))*(parseInt(ListingCartPop[i].Price)))
+    }
+    settotalamount(total)
+    setquantityData(quantity)
+  },[ListingCartPop])
   return (
     <div className="header-bottam">
       <div className="header-wrapper">
@@ -58,7 +82,6 @@ function HeaderBottamSection() {
                 ) : null}
 
                 <NavLink className="header-menu-0" onClick={onClick}>
-                
                   <li onClick={() => setShowText(!showText)}>
                     {!showText ? (
                       <ArrowForwardIosIcon />
@@ -78,62 +101,77 @@ function HeaderBottamSection() {
               </NavLink>
               <NavLink className="header-menu-1" onClick={() => setData(!data)}>
                 <BsCart />
+                <h1 className="header-coutong">{count}</h1>
               </NavLink>
 
               {data ? (
                 <>
                   <div class="card-cat-checkout-man">
                     <div className="total-shping-cart">
-                      <table>
-                        <tbody>
-                          <tr className="main-header-checkout">
-                            <td>
-                              <figure class="itemside align-items-center">
-                                <div class="aside">
-                                  <img src={shop6} class="img-sm" alt="cart" />
-                                </div>
-                                <figcaption class="info">
-                                  {" "}
-                                  <a
-                                    href="#"
-                                    class="title text-dark"
-                                    data-abc="true"
-                                  >
-                                    Flower Formal T-shirt
-                                  </a>
-                                  <p class="text-muted small">
-                                    SIZE: L <br /> Brand: ADDA{" "}
-                                  </p>
-                                </figcaption>
-                              </figure>
-                            </td>
-                          </tr>
-                          <tr className="main-header-checkout">
-                            <td className="main-header-card-tcet">Total</td>
-                            <td class="text-right total-new-tt">$1,000.00</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <div class="scroll-box">
+                        <table>
+                          <tbody>
+                            {ListingCartPop.map((element) => {
+                              return (
+                                <>
+                                  <tr className="main-header-checkout">
+                                    <td>
+                                      <figure class="itemside align-items-center">
+                                        <div class="aside">
+                                          <img
+                                            className="img-sm"
+                                            src={
+                                              "https://app.soundchatradio.com/soundradiobackend/images/product/" +
+                                              element.image
+                                            }
+                                          />
+                                        </div>
+                                        <figcaption class="info">
+                                          {" "}
+                                          <a
+                                            href="#"
+                                            class="title text-dark"
+                                            data-abc="true"
+                                          >
+                                            {element.title}
+                                          </a>
+                                          <p class="text-muted small">
+                                          {element.quantity } X {element.Price} SubTotal: {element.quantity*element.Price}
+                                          </p>
+                                        </figcaption>
+                                      </figure>
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                            <tr className="main-header-checkout">
+                              <td className="main-header-card-tcet">Total</td>
+                              <td class="text-right total-new-tt">${totalamount}</td>
+                            </tr>
+                          </tbody>
+                        </table>
 
-                      <div className="row mt-4">
-                        <div className="col-md-6">
-                          <div className="countinew-shpnig">
-                            <NavLink
-                              to="/Cart"
-                              className="countinew-empty ceconu"
-                            >
-                              Cart
-                            </NavLink>
+                        <div className="row mt-4">
+                          <div className="col-md-6">
+                            <div className="countinew-shpnig">
+                              <NavLink
+                                to="/Cart"
+                                className="countinew-empty ceconu"
+                              >
+                                Cart
+                              </NavLink>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="countinew-shpnig">
-                            <NavLink
-                              to="/Checkout"
-                              className="countinew-empty ceconu-1"
-                            >
-                              Checkout
-                            </NavLink>
+                          <div className="col-md-6">
+                            <div className="countinew-shpnig">
+                              <NavLink
+                                to="/Checkout"
+                                className="countinew-empty ceconu-1"
+                              >
+                                Checkout
+                              </NavLink>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -192,9 +230,83 @@ function HeaderBottamSection() {
           <FaRegUser />
         </NavLink>
         <div className="user-profile-new">
-          <NavLink to="/Cart" className="header-menu-2 new--menu1">
+          <NavLink  className="header-menu-2 new--menu1" onClick={() => setData(!data)}>
             <BsCart />
+            <h1 className="header-coutong">{count}</h1>
           </NavLink>
+          {data ? (
+                <>
+                  <div class="card-cat-checkout-man">
+                    <div className="total-shping-cart">
+                    <div class="scroll-box">
+                      <table>
+                        <tbody>
+                          {ListingCartPop.map((element) => {
+                            return (
+                              <>
+                                <tr className="main-header-checkout">
+                                  <td>
+                                    <figure class="itemside align-items-center">
+                                      <div class="aside">
+                                        <img
+                                          className="img-sm"
+                                          src={
+                                            "https://app.soundchatradio.com/soundradiobackend/images/product/" +
+                                            element.image
+                                          }
+                                        />
+                                      </div>
+                                      <figcaption class="info">
+                                        {" "}
+                                        <a
+                                          href="#"
+                                          class="title text-dark"
+                                          data-abc="true"
+                                        >
+                                          {element.title}
+                                        </a>
+                                        <p class="text-muted small">{element.quantity} X {element.Price} SubTotal: {element.quantity*element.Price}</p>
+                                      </figcaption>
+                                    </figure>
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                          <tr className="main-header-checkout">
+                            <td className="main-header-card-tcet">Total</td>
+                            <td class="text-right total-new-tt">${totalamount}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div className="row mt-4">
+                        <div className="col-md-6">
+                          <div className="countinew-shpnig">
+                            <NavLink
+                              to="/Cart"
+                              className="countinew-empty ceconu"
+                            >
+                              Cart
+                            </NavLink>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="countinew-shpnig">
+                            <NavLink
+                              to="/Checkout"
+                              className="countinew-empty ceconu-1"
+                            >
+                              Checkout
+                            </NavLink>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </>
+              ) : null}
         </div>
       </div>
     </div>

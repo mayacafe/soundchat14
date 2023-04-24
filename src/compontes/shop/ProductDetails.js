@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { AiOutlineCheck } from 'react-icons/ai';
 import { trackPromise, usePromiseTracker } from "react-promise-tracker";
 import HeaderBottamSection from "../header/HeaderBottamSection";
-// import HeaderTopSection from "../header/HeaderTopSection";
 import FooterSection from "../layout/FooterSection";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { NavLink, json, useNavigate  } from "react-router-dom";
@@ -13,9 +13,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useParams } from "react-router-dom";
 function ProductDetails() {
-  const navigate = useNavigate()
   const params = useParams();
-  console.log(params.prodoctId);
   const [counter, setCounter] = useState(1);
   const handleClick1 = () => {
     setCounter(counter - 1);
@@ -25,6 +23,18 @@ function ProductDetails() {
   };
   const [ShopDetails, setShopDetails] = useState({});
   const [SizeDetails, setSize] = useState([]);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+
+  const setColor = (item) => {
+    setSelectedColor(item);
+    // onSelectedColorChange(color);
+  }
+  const setSizeItem = (item) => {
+    setSelectedSize(item);
+    // onSelectedColorChange(color);
+  }
+
 
   useEffect(() => {
     axios
@@ -39,7 +49,6 @@ function ProductDetails() {
         console.log(error);
       });
   }, [params]);
-  
   const [Product, setProduct] = useState([]);
   useEffect(() => {
     trackPromise(
@@ -60,7 +69,7 @@ function addToCart (){
    jsonItems.cart_items.push(ShopDetails)
    localStorage.removeItem('card')
    localStorage.setItem("card",JSON.stringify(jsonItems))
-  navigate("/Cart")
+ 
 }
 
 useEffect(() => {
@@ -126,34 +135,53 @@ useEffect(() => {
                     <div className="col-md-6">
                       <div class="product-variation product-size-variation">
                         <label class="product-label-text">Size:</label>
-                        <ul class="range-variant">
+                        {/* <ul class="range-variant">
                           {SizeDetails.map((item) => {
                             return (
                               <>
                                 {" "}
-                                <li>{item.size}</li>
+                                <li  >{item.size}</li>
                               </>
                             );
                           })}
-                        </ul>
+                        </ul> */}
+                         <div className="color-chooser">
+                          {SizeDetails.map((item) => {
+                            return (
+                              <>
+                                {" "}
+                                <div
+                                  className={selectedSize === item ? 'color-item-1 color-item-selected-1' : 'color-item-1'}
+                                  // style={{ backgroundColor: item.hexcode }}
+                  
+                                  role="presentation"
+                                  onClick={() => setSizeItem(item)}
+                                >{item.size}</div>
+                              </>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div class="product-variation product-size-variation">
                         <label class="product-label-text">Color:</label>
-
-                        <ul class="range-variant">
+                        <div className="color-chooser">
                           {SizeDetails.map((item) => {
                             return (
                               <>
                                 {" "}
-                                <li
+                                <div
+                                  className={selectedColor === item ? 'color-item color-item-selected' : 'color-item'}
+                                  // style={{ backgroundColor: item.hexcode }}
                                   style={{ backgroundColor: item.hexcode }}
-                                ></li>
+                                  role="presentation"
+                                  onClick={() => setColor(item)}
+                                >{selectedColor === item ? <AiOutlineCheck className="icon-color-size"/> :null}</div>
                               </>
                             );
                           })}
-                        </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -351,149 +379,6 @@ useEffect(() => {
                     </>
                   );
                 })}
-                {/* <div class="col-6 col-md-6 col-lg-4 col-xl-3">
-                  <div id="product-3" class="single-product">
-                    <div class="part-1">
-                      <img src={shop3} alt="" />
-                      <ul>
-                        <li>
-                          <NavLink to="/Cart">
-                            <i>
-                              <BsCart3 />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/Login">
-                            <i>
-                              <BsHeart />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/ProductDetails">
-                            <i>
-                              <BsEye />
-                            </i>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="part-2">
-                      <h3 class="product-title">Here Product Title</h3>
-                      <h4 class="product-old-price">$79.99</h4>
-                      <h4 class="product-price">$49.99</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-lg-4 col-xl-3">
-                  <div id="product-4" class="single-product">
-                    <div class="part-1">
-                      <img src={shop4} alt="" />
-                      <span class="new">new</span>
-                      <ul>
-                        <li>
-                          <NavLink to="/Cart">
-                            <i>
-                              <BsCart3 />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/Login">
-                            <i>
-                              <BsHeart />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/ProductDetails">
-                            <i>
-                              <BsEye />
-                            </i>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="part-2">
-                      <h3 class="product-title">Here Product Title</h3>
-                      <h4 class="product-price">$49.99</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-lg-4 col-xl-3">
-                  <div id="product-1" class="single-product">
-                    <div class="part-1">
-                      <img src={shop5} alt="" />
-                      <ul>
-                        <li>
-                          <NavLink to="/Cart">
-                            <i>
-                              <BsCart3 />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/Login">
-                            <i>
-                              <BsHeart />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/ProductDetails">
-                            <i>
-                              <BsEye />
-                            </i>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="part-2">
-                      <h3 class="product-title">Here Product Title</h3>
-                      <h4 class="product-old-price">$79.99</h4>
-                      <h4 class="product-price">$49.99</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-6 col-md-6 col-lg-4 col-xl-3">
-                  <div id="product-2" class="single-product">
-                    <div class="part-1">
-                      <img src={shop6} alt="" />
-                      <span class="discount">15% off</span>
-                      <ul>
-                        <li>
-                          <NavLink to="/Cart">
-                            <i>
-                              <BsCart3 />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/Login">
-                            <i>
-                              <BsHeart />
-                            </i>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/ProductDetails">
-                            <i>
-                              <BsEye />
-                            </i>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="part-2">
-                      <h3 class="product-title">Here Product Title</h3>
-                      <h4 class="product-price">$49.99</h4>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </section>
           </Row>

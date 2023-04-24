@@ -14,15 +14,14 @@ import Tabs from "react-bootstrap/Tabs";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import download1 from "../asstes/images/download1.jpg";
-
-
-
 export default function Podcat() {
   const { promiseInProgress } = usePromiseTracker();
   const day = moment().tz("America/Detroit").format("dddd");
-  console.log(day, "day")
   const time = moment().tz("America/Detroit").format("HH:mm");
+  const tomorrowDay = moment().add(1, 'days').tz("America/Detroit").format("dddd");
+  const tomorrowTime = moment().add(1, 'days').tz("America/Detroit").format("HH:mm");
   const [UpcomingShow, setUpcomingShow] = useState([]);
+  const [tomorrow, settomorrow] = useState([]);
   const [MondayPodcast, setMondayPodcast] = useState([]);
   const [ThusedayPodcast, setThusedayPodcast] = useState([]);
   const [WednesdayPodcast, setWednesdayPodcast] = useState([]);
@@ -54,8 +53,6 @@ export default function Podcat() {
         })
     );
   }, []);
-  
-
   useEffect(() => {
     for (let i = 0; i < UpcomingShow.length; i++) {
       if (UpcomingShow[i].post_title === day) {
@@ -64,7 +61,13 @@ export default function Podcat() {
     }
   }, [UpcomingShow , day]);
 
-  //console.log(EndingTime,"endingstart")
+  useEffect( () => {
+    for (let i = 0; i < UpcomingShow.length; i++) {
+      if (UpcomingShow[i].post_title === tomorrowDay) {
+        settomorrow(UpcomingShow[i].scheduleperdays)
+      }
+    }
+  },[UpcomingShow])
 
 
 
@@ -135,7 +138,7 @@ export default function Podcat() {
                 responsive={state.responsive} 
                 margin={10}
               >
-                {LiveShowsData.map((element) => {
+                {(LiveShowsData.length>0)?<>{LiveShowsData.map((element) => {
                   return (
                     <>
                       {
@@ -165,7 +168,38 @@ export default function Podcat() {
                       )}
                     </>
                   );
-                })}
+                })}</>:<>{tomorrow.map((element) => {
+                  return (
+                    <>
+                      {
+                      ((tomorrowTime)<=element.show_start_date)  // true
+                       ? (
+
+                        <div className="podcast-div">
+                          <div className="podcast-img effect-image-1 radious-effect radius-effct-next">
+                            <img
+                              src={
+                                "https://app.soundchatradio.com/soundradiobackend/images/podcast/" +
+                                element.show_image
+                              }
+                              alt="img-error"
+                            />
+                          </div>
+                          <div className="podcast-box">
+                            <h6>{element.show_name}</h6>
+                            <p className="div-podcast">{day}</p>
+                            <p className="pera pera-podcast">
+                              {element.show_start_date}
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  );
+                })}</>}
+                
               </OwlCarousel>
 
               <div className="podcast-bottam">

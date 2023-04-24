@@ -50,9 +50,11 @@ export default function NewsSection() {
       ]);
     }
   }, [StoriesApiCall]);
-  //console.log(HomeTimelineApiCall, "ook");
+
   const day = moment().tz("America/Detroit").format("dddd");
   const time = moment().tz("America/Detroit").format("HH:mm");
+  const tomorrowDay = moment().add(1, 'days').tz("America/Detroit").format("dddd");
+  const tomorrowTime = moment().add(1, 'days').tz("America/Detroit").format("HH:mm");
   const state = {
     responsive: {
       0: {
@@ -74,6 +76,7 @@ export default function NewsSection() {
   };
   const [LiveShow, setLiveShow] = useState([]);
   const [LiveShowsData, setLiveShowsData] = useState([]);
+  const [tomorrow, settomorrow] = useState([]);
   useEffect(() => {
     trackPromise(
       axios
@@ -81,7 +84,6 @@ export default function NewsSection() {
           `https://app.soundchatradio.com:3000/api/v1/auth/listshowschedule`
         )
         .then((response) => {
-          //console.log(response.data);
           setLiveShow(response.data.data);
         })
         .catch((error) => {
@@ -96,6 +98,17 @@ export default function NewsSection() {
       }
     }
   }, [LiveShow]);
+
+  useEffect( () => {
+    for (let i = 0; i < LiveShow.length; i++) {
+      if (LiveShow[i].post_title === tomorrowDay) {
+        settomorrow(LiveShow[i].scheduleperdays)
+      }
+    }
+  },[LiveShow])
+
+
+  //console.log(LiveShowsData, "ok")
   return (
     <section className="bg-color">
       <div className="product-section">
@@ -148,7 +161,8 @@ export default function NewsSection() {
                       responsive={state.responsive} 
                       margin={20}
                     >
-                      {LiveShowsData.map((element) => {
+
+                      {(LiveShowsData.length>0) ? <>  {LiveShowsData.map((element) => {
                         return (
                           <>
                           {((time)<=element.show_start_date)  ? 
@@ -169,7 +183,31 @@ export default function NewsSection() {
                            
                           </>
                         );
+                      })}</>:<>
+                        {tomorrow.map((element) => {
+                        return (
+                          <>
+                          {((tomorrowTime)<=element.show_start_date)  ? 
+                          ( <NavLink to="/PodcastList">
+                              <div className="live-podcast">
+                                <img
+                                  src={
+                                    "https://app.soundchatradio.com/soundradiobackend/images/podcast/" +
+                                    element.show_image
+                                  }
+                                  alt="img-error"
+                                />
+                              </div>
+                            </NavLink>) 
+                            :
+                             (<></>)
+                             }
+                           
+                          </>
+                        );
                       })}
+                      </>}
+                    
                     </OwlCarousel>
                   </>
                 )}

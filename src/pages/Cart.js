@@ -6,53 +6,60 @@ import { FaShare } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 export default function Cart() {
   const [CartListing, setCartListing] = useState([]);
-  const [RemoveData, setRemoveData] = useState([]);
-  const [totalamount, settotalamount] = useState(0)
+  const [totalamount, settotalamount] = useState("")
   const [quantityData, setquantityData] = useState(0)
-  const [pricedata, setpricedata] = useState(0)
+  const [deletestate, setdeletestate] = useState(true)
+  const [RemoveItemsAll, setRemoveItemsAll] = useState("state")
   useEffect(() => {
     const jsonItems = JSON.parse(localStorage.getItem("card"));
     setCartListing(jsonItems.cart_items);
-    // settotalamount(jsonItems.total_amount);
-    // setquantityData(jsonItems.quantity)
-  }, []);
-
-  //  function findId(CartListing, key) {
-  //   let prod_Id = [];
-  //   CartListing.forEach((id_1)=>{
-  //  if(prod_Id.some((val) => {return val[key] == id_1[key] })){
-  //   prod_Id.forEach((id_2)=>{
-  //     if(id_2[key] === id_1[key]){
-  //       id_2["occurrence"]++
-  //     }
-  //   })
-  //  }else{
-  //     let sec_Id = {}
-  //     sec_Id[key] = id_1[key]
-  //     sec_Id["occurrence"] = 1
-  //     prod_Id.push(sec_Id)
-  //  }
-  //   })
-
-  //   return prod_Id
-  //  }
-
-  function removeItems(index){
-   console.log(CartListing[index],index)
-  //   const jsonItems = JSON.parse(localStorage.getItem("card"));
-  //  let cartdata =  CartListing.pop(index)
-  //     console.log(cartdata, "remov")
-  //     jsonItems.cart_items.push(CartListing)
-  //  localStorage.setItem("card",JSON.stringify(jsonItems))
+  }, [deletestate]);
+var removeindex = ""
+  function removeItems(id,indexvalue){
+  let cart_data = CartListing
+  const a = cart_data.find(function(item, i){
+    if(item.id === id && i===indexvalue){
+      removeindex=i
+      cart_data.splice(i,1)
+      const newcarddata ={}
+      newcarddata.quantity = cart_data.length
+      newcarddata.total_amount=0;
+      newcarddata.cart_items=cart_data
+      localStorage.removeItem('card')
+      localStorage.setItem("card",JSON.stringify(newcarddata))
+      setdeletestate(!deletestate)
+      return i
+    }
+  });
   }
+  
+  function RemoveAllItems (){
+    localStorage.removeItem("card");
+    localStorage.setItem("card",JSON.stringify({
+      quantity: 0,
+      total_amount: 0,
+      cart_items: []
+    }))
+    const jsonItems = JSON.parse(localStorage.getItem("card"));
+    setCartListing(jsonItems.cart_items);
+    if(RemoveItemsAll==="state"){
+      setRemoveItemsAll("updatestate")
+    }else{
+      setRemoveItemsAll("state")
+    }
+    
+  }
+  useEffect(()=>{
+    var total = 0
+    var quantity = 0
+     for (var i = 0; i <CartListing.length; i++) {
+       quantity =quantity+ parseInt(CartListing[i].quantity)
+       total =total +((parseInt(CartListing[i].quantity))*(parseInt(CartListing[i].Price)))
+    }
+    settotalamount(total)
+    setquantityData(quantity)
+  },[CartListing,RemoveItemsAll])
 
-  // useEffect(()=>{
-  //   for (var i = 0; i <CartListing.length; i++) {
-  //     setquantityData(quantityData+CartListing[i].quantity)
-  //     setpricedata(parseInt(pricedata)+((parseInt(CartListing[i].quantity))*(parseInt(CartListing[i].Price))))
-  //   }
-  // },[CartListing])
-  // console.log(pricedata, "cartitem");
 
   return (
     <>
@@ -76,7 +83,6 @@ export default function Cart() {
                         <th scope="col" width="120">
                           Price
                         </th>
-
                         <th scope="col" width="100">
                           Subtotal
                         </th>
@@ -86,7 +92,7 @@ export default function Cart() {
                       </tr>
                     </thead>
                     <tbody>
-                      {CartListing.map((listing, index) => {
+                      {CartListing.map((listing, index , array) => {
                         return (
                           <>
                             <tr key={listing.name}>
@@ -103,13 +109,12 @@ export default function Cart() {
                                   </div>
                                   <figcaption class="info">
                                     {" "}
-                                    <a
-                                      href="#"
+                                    <div
                                       class="title text-dark"
                                       data-abc="true"
                                     >
                                       {listing.title}
-                                    </a>
+                                    </div>
                                   </figcaption>
                                 </figure>
                               </td>
@@ -119,7 +124,6 @@ export default function Cart() {
                                   name="1[qty]"
                                   class="text-center cart"
                                   defaultValue={listing.quantity}
-                                  //   onClick={ () => findId(CartListing, "id")}
                                 />
                               </td>
                               <td>
@@ -134,8 +138,8 @@ export default function Cart() {
                               </td>
 
                               <td class="cart-delete">
-                                <i onClick={() => removeItems(listing.id)}>
-                                  <BsFillTrashFill />
+                                <i >
+                                  <BsFillTrashFill onClick={() => removeItems(listing.id,index)} />
                                 </i>
                               </td>
                             </tr>
@@ -148,11 +152,15 @@ export default function Cart() {
               </div>
               <div className="row mt-4 nee">
                 <div className="col-md-6 col-sm-6 col-6">
+                  {(CartListing.length>0)?
+                  <>
                   <div className="countinew-shpnig">
-                    <NavLink className="countinew-empty ceconu">
+                    <button className="countinew-empty ceconu" onClick={() => {RemoveAllItems()}} >
                       Remove All
-                    </NavLink>
+                    </button>
                   </div>
+                </>
+                :<></>}
                 </div>
                 <div className="col-md-6 col-sm-6 col-6">
                   <div className="countinew-shpnig">
@@ -167,27 +175,26 @@ export default function Cart() {
                 </div>
               </div>
             </aside>
-
             <aside class="col-lg-4">
               <div class="card">
                 <div className="total-shping-cart">
                   <h5> CART TOTALS</h5>
                   <table>
                     <tbody>
-                      <tr>
+                      {/* <tr>
                         <td className="cart-total-text">Total w/o Tax</td>
                         <td class="text-right total-new-tt">$847.46</td>
                       </tr>
                       <tr>
                         <td className="cart-total-text">Product Tax</td>
                         <td class="text-right total-new-tt">$152.54</td>
-                      </tr>
+                      </tr> */}
                       <tr>
                         <td className="cart-total-text">Total</td>
-                        <td class="text-right total-new-tt">$1,000.00</td>
+                        <td class="text-right total-new-tt">${totalamount}</td>
                       </tr>
                       <tr>
-                        <td className="cart-total-text">Order Tax</td>
+                        <td className="cart-total-text">Tax</td>
                         <td class="text-right total-new-tt">0.00</td>
                       </tr>
                       <tr>
@@ -202,7 +209,7 @@ export default function Cart() {
                   <div className="grand-tut-t1">
                     <h6>
                       Grand Total
-                      <span>$1,000.00</span>
+                      <span>${totalamount}</span>
                     </h6>
                   </div>
                   <div className="checkout">

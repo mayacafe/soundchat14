@@ -1,8 +1,9 @@
 import React, { useState} from "react";
+import { BsFillLockFill, BsArrowLeft } from "react-icons/bs";
+import logo from "../asstes/images/logo.png";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
-import { BsFillLockFill } from "react-icons/bs";
 import scarner from "../asstes/images/scarner.jpeg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -113,41 +114,49 @@ function Login() {
   );
   return (
     <div className="login">
-      <div class="container-fluid">
-        <div class="row main-content  text-center">
-          <div class="col-md-5 text-center company__info">
-            <span class="company__logo">
-              <img src={scarner} alt="scarner" />
-            </span>
-          </div>
-          <div class="col-md-7 col-xs-12 col-sm-12 login_form ">
-            <div class="container-fluid">
+    <div class="container-fluid">
+      <div class="row main-content  text-center">
+        <div class="col-md-5 text-center company__info">
+          <span class="company__logo">
+            <img src={scarner} alt="scarner" />
+          </span>
+        </div>
+        <div class="col-md-7 col-xs-12 col-sm-12">
+          <div class="row">
+            <div className="col-md-3">
+              <div class="login-logo">
+                <img src={logo} alt="scarner" />
+              </div>
+            </div>
+            <div className="col-md-9">
               <div class="login-text">
                 <h2 class="hr-lines">Sign In</h2>
               </div>
-              <div class="row">
-              {promiseInProgress === true ? (
-            <div
-              className="spinner"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignIitems: "center",
-                height:"300px",
-              }}
-            >
-              <ThreeDots
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="circles-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-              />
             </div>
-          ) : (
-            <>
+          </div>
+          <div class="row">
+            {promiseInProgress === true ? (
+              <div
+                className="spinner"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignIitems: "center",
+                  height: "300px",
+                }}
+              >
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="circles-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={true}
+                />
+              </div>
+            ) : (
+              <>
                 <form class="form-group" onSubmit={formik.handleSubmit}>
                   <div class="row">
                     <div className="login-demo">
@@ -164,7 +173,9 @@ function Login() {
                         class="form__input"
                       />
                       {formik.errors.mobileno && formik.touched.mobileno && (
-                        <p className="errormessage">{formik.errors.mobileno}</p>
+                        <p className="errormessage">
+                          {formik.errors.mobileno}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -188,7 +199,9 @@ function Login() {
                         <i onClick={togglePasswordVisiblity}>{eye}</i>
                       </span>
                       {formik.errors.password && formik.touched.password && (
-                        <p className="errormessage">{formik.errors.password}</p>
+                        <p className="errormessage">
+                          {formik.errors.password}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -205,42 +218,49 @@ function Login() {
                           onChange={formik.handleChange}
                         />
                         <label for="remember_me">Remember Me!</label>
-                        {/* {formik.errors.remeber && formik.touched.remeber && (
-                        <p className="errormessage">{formik.errors.remeber}</p>
-                      )} */}
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-6 col-6">
                       <div className="forgot">
-                        <NavLink to="/Forgotpassword">Forgot Password</NavLink>
+                        <NavLink to="/Forgotpassword">
+                          Forgot Password
+                        </NavLink>
                       </div>
                     </div>
                   </div>
                   <div class="row">
-                    <button type="submit" className="login-from-btn">
-                      Sign In
-                    </button>
+                    <div className="col-md-12">
+                      <button type="submit" className="login-from-btn">
+                        Sign In
+                      </button>
+                    </div>
                   </div>
                   <ToastContainer />
                 </form>
-                </>
-          )}
-              </div>
-              <div class="row">
-                <div className="dont-here">
-                  <p>
-                    Don't have an account?
-                    <NavLink to="/Register" className="dont-here-1">
-                      Sign Up
-                    </NavLink>
-                  </p>
-                </div>
+              </>
+            )}
+          </div>
+          <div class="row">
+            <div className="col-xl-4 col-md-4 col-sm-4 col-4">
+              <NavLink to="/" className="bac-to-home">
+                <BsArrowLeft /> Back
+              </NavLink>
+            </div>
+            <div className="col-xl-8 col-md-8 col-sm-8 col-8">
+              <div className="dont-here">
+                <p>
+                  Don't have an account?
+                  <NavLink to="/Register" className="dont-here-1">
+                    Sign Up
+                  </NavLink>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
 export default Login;

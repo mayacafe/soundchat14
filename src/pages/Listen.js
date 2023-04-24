@@ -14,10 +14,7 @@ import "react-slideshow-image/dist/styles.css";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// import int01 from "../asstes/images/int01.jpg";
 import "react-h5-audio-player/lib/styles.css";
-//import { BsFillSquareFill } from "react-icons/bs";
-
 function ListenSection() {
   const day = moment().tz("America/Detroit").format("dddd");
   const time = moment().tz("America/Detroit").format("HH:mm");
@@ -83,18 +80,18 @@ function ListenSection() {
             LiveShow[i].scheduleperdays[j].show_start_date.split(":");
           let endtime = LiveShow[i].scheduleperdays[j].show_end_date.split(":");
           let currenttime = time.split(":");
-          console.log(starttime[0], endtime[0], currenttime[0], time, "sdghfg");
-          if (
-            parseInt(starttime[0]) <= parseInt(currenttime[0]) &&
-            parseInt(endtime[0]) >= parseInt(currenttime[0])
-          ) {
-            console.log("okay");
+          //console.log(starttime[0], endtime[0], currenttime[0], time, "sdghfg");
+          // if (
+          //   parseInt(starttime[0]) < parseInt(currenttime[0]) &&
+          //   parseInt(endtime[0]) > parseInt(currenttime[0])
+          // ) {
+          //   console.log("okay");
             setShowTimeData({
               show_name: LiveShow[i].scheduleperdays[j].show_name,
               show_audio_url: LiveShow[i].scheduleperdays[j].show_audio_url,
               show_image: LiveShow[i].scheduleperdays[j].show_image,
             });
-          }
+          // }
         }
       }
     }
@@ -116,19 +113,10 @@ function ListenSection() {
         })
     );
   }, []);
-  // const [playtitle, setPlaytitle] = useState("");
-  // const [playdescription, setPlayDescription] = useState("");
-  // const [playaudiolink, setPlayaudiolink] = useState("");
-  // function handleListen(details) {
-  //   console.log(details, "kk");
-  //   setPlaytitle(details.show_name);
-  //   setPlayDescription(details.show_description);
-  //   setPlayaudiolink(details.show_audio_url);
-  // }
-  // console.log(playaudiolink, "playaudiolink");
+  
   return (
     <>
-      <HeaderBottamSection />
+    <HeaderBottamSection />
       <section className="bg-color">
         <div className="container-fluid">
           {promiseInProgress === true ? (
@@ -158,7 +146,11 @@ function ListenSection() {
                   <Row>
                     <Col lg={8} md={6}>
                       <div className="slide-fed-new">
-                        <Fade>
+                        <Fade
+                        autoplay={true}
+                        arrows={false}
+                        duration={1500}
+                        >
                           {ListenSlider.map((element) => {
                             return (
                               <>
@@ -261,30 +253,6 @@ function ListenSection() {
                               </div>
                             </div>
                           </Col>
-
-                          {/* <div className="listen-new-item">
-                              <div className="right-section-listen">
-                                <h6>{playtitle}</h6>
-
-                                <p>{playdescription}</p>
-                                <div className="listen-icon-div">
-                                  <AudioPlayer
-                                    autoPlay
-                                    src={playaudiolink}
-                                    onPlay={(e) => console.log("onPlay")}
-                                  />
-                                  <span className="listion-icon ">
-                                  <BsFillSquareFill />
-                                </span>
-                                <span className="listion-icon-li ">
-                                  <BiPlay />
-                                </span>
-                                <span className="listion-icon icon-lis lis-font">
-                                  <BsFillVolumeUpFill />
-                                </span>
-                                </div>
-                              </div>
-                            </div> */}
                         </Row>
                       </div>
                     </Col>

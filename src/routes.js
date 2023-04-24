@@ -28,6 +28,7 @@ import GalleryPage from "./compontes/gallery/GalleryPage";
 import { useRoutes } from "react-router-dom";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import AudioPlayers from "./pages/AudioPlayers";
 // import Chatting from "./pages/Chatting";
 import Register from "./pages/Register";
 import RecapViewMoreVideo from "./compontes/viewmorepages/RecapViewMoreVideo";
@@ -59,5 +60,6 @@ export default function Router() {
     { path: "/Forgotpassword", element: <Forgotpassword /> },
     { path: "/PodcastList", element: <Iframeaudio /> },
     { path: "/Chatting", element: <Chatting /> },
+    { path: "/AudioPlayers", element: <AudioPlayers /> },
   ]);
 }

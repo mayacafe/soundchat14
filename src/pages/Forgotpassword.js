@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import logo from "../asstes/images/logo.png";
 import { useFormik } from "formik";
+import { BsFillLockFill,BsArrowLeft } from "react-icons/bs";
 import * as Yup from "yup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -94,7 +95,6 @@ function Forgotpassword() {
               <button type="submit" className="login-from-btn">
                 Reset Password
               </button>
-              {/* <ToastContainer /> */}
             </form>
 
             <div class="row mt-4">
@@ -103,8 +103,9 @@ function Forgotpassword() {
                   {" "}
                   <a href="#"></a>
                 </p>
+               
                 <p>
-                  Back to
+                <BsArrowLeft/>  Back to
                   <NavLink to="/Login" className="dont-here-1">
                     Login
                   </NavLink>

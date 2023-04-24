@@ -3,17 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import MainApp from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter,
-} from "react-router-dom";
-import { ScrollToTop as  ScrollTop} from "react-router-scroll-to-top";
+import { BrowserRouter } from "react-router-dom";
+import { ScrollToTop as ScrollTop } from "react-router-scroll-to-top";
 import ScrollToTop from "react-scroll-to-top";
-
+// import AudioPlayers from "./pages/AudioPlayer";
+const Location = localStorage.getItem("locationpath");
+//  window.location.reload(true)
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const data = (location) => {
+  localStorage.setItem("locationpath", location);
+
+  console.log(location);
+  // window.location.reload(false)
+};
+console.log(Location, "okay");
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <ScrollTop />
+      <ScrollTop />
       <MainApp />
       <ScrollToTop smooth />
     </BrowserRouter>

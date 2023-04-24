@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -78,9 +78,6 @@ export default function Contact() {
                           <a href="tel://(347)-514-7520" data-rel="external">
                             (347)-514-7520
                           </a>
-                          {/* <Link to="/#" title="Give me a call">
-                            (347)-514-7520
-                          </Link> */}
                         </span>
                       </li>
 
@@ -90,7 +87,10 @@ export default function Contact() {
                         </i>
                         <span class="contact-text gmail">
                           <Link to="#" title="Send me an email">
-                            info@soundchatradio.com
+                            mailto:info@soundchatradio.com
+                            <p className="contact-rdused">
+                             irishandchin@gmail.com
+                            </p>
                           </Link>
                         </span>
                       </li>
@@ -104,7 +104,7 @@ export default function Contact() {
                         </span>
                       </li>
                     </ul>
-                    <ul class="contact-list mt-5">
+                    <ul class="contact-list mt-4">
                       <h6>Kingston,Jamaica</h6>
 
                       <li class="list-item">
@@ -119,9 +119,6 @@ export default function Contact() {
                           <a href="tel://(347)-514-7520" data-rel="external">
                             (347)-514-7520
                           </a>
-                          {/* <Link to="/#" title="Give me a call">
-                            +1(879)-665-5526,(347)-514-7520
-                          </Link> */}
                         </span>
                       </li>
 
@@ -146,7 +143,6 @@ export default function Contact() {
                       </li>
                     </ul>
 
-                    <hr />
                     <ul class="social-media-list">
                       <li
                         onClick={() => {
@@ -206,7 +202,6 @@ export default function Contact() {
                         </a>
                       </li>
                     </ul>
-                    <hr />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -217,60 +212,49 @@ export default function Contact() {
                     onSubmit={formik.handleSubmit}
                   >
                     <div class="form-group">
-                      <div class="col-sm-12">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter Name"
-                          name="firstname"
-                          autoComplete="off"
-                          value={formik.values.firstname}
-                          onChange={formik.handleChange}
-                        />
-                        {formik.errors.firstname &&
-                          formik.touched.firstname && (
-                            <p className="errormessage-1">
-                              {formik.errors.firstname}
-                            </p>
-                          )}
-                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter Name"
+                        name="firstname"
+                        autoComplete="off"
+                        value={formik.values.firstname}
+                        onChange={formik.handleChange}
+                      />
+                      {formik.errors.firstname && formik.touched.firstname && (
+                        <p className="errormessage-1">
+                          {formik.errors.firstname}
+                        </p>
+                      )}
                     </div>
 
                     <div class="form-group">
-                      <div class="col-sm-12">
-                        <input
-                          type="email"
-                          class="form-control"
-                          placeholder="Enter Email"
-                          name="email"
-                          autoComplete="off"
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                        />
-                        {formik.errors.email && formik.touched.email && (
-                          <p className="errormessage-1">
-                            {formik.errors.email}
-                          </p>
-                        )}
-                      </div>
+                      <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Enter Email"
+                        name="email"
+                        autoComplete="off"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                      />
+                      {formik.errors.email && formik.touched.email && (
+                        <p className="errormessage-1">{formik.errors.email}</p>
+                      )}
                     </div>
                     <div class="form-group">
-                      <div class="col-sm-12">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter Mobile Number"
-                          name="phone"
-                          autoComplete="off"
-                          value={formik.values.mobile}
-                          onChange={formik.handleChange}
-                        />
-                        {formik.errors.phone && formik.touched.phone && (
-                          <p className="errormessage-1">
-                            {formik.errors.phone}
-                          </p>
-                        )}
-                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter Mobile Number"
+                        name="phone"
+                        autoComplete="off"
+                        value={formik.values.mobile}
+                        onChange={formik.handleChange}
+                      />
+                      {formik.errors.phone && formik.touched.phone && (
+                        <p className="errormessage-1">{formik.errors.phone}</p>
+                      )}
                     </div>
 
                     <textarea

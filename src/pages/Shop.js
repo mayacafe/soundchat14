@@ -9,7 +9,6 @@ import { BsCart3, BsHeart, BsEye, BsCart } from "react-icons/bs";
 import { Navigation } from "swiper";
 import "swiper/css/navigation";
 import axios from "axios";
-
 export default function Shop() {
   const { promiseInProgress } = usePromiseTracker();
   const [ShopDetails, setShopDetails] = useState([]);
@@ -25,10 +24,9 @@ export default function Shop() {
         })
     );
   }, []);
-
   return (
     <>
-      <HeaderBottamSection />
+      {/* <HeaderBottamSection /> */}
       <section className="new-store">
         <Swiper slidesPerView={1} navigation={true} modules={[Navigation]}>
           {ShopDetails.map((element) => {
@@ -42,11 +40,11 @@ export default function Shop() {
                           <div className="shop-text">
                             <h1>{element.title}</h1>
                             <h4>${element.Price}</h4>
-                            <NavLink to="/Cart">
+                            {/* <NavLink to="/Cart">
                               <button>
                                 <BsCart className="shop-11" /> Add To Cart
                               </button>
-                            </NavLink>
+                            </NavLink> */}
                           </div>
                         </div>
                         <div className="col-md-6">
@@ -86,7 +84,7 @@ export default function Shop() {
                 display: "flex",
                 justifyContent: "center",
                 alignIitems: "center",
-                height:"300px",
+                height: "300px",
               }}
             >
               <ThreeDots
@@ -106,14 +104,14 @@ export default function Shop() {
                   return (
                     <>
                       <div class="col-sm-6 col-6 col-md-3 col-lg-4 col-xl-3">
-                        <NavLink
+                        {/* <NavLink
                           key={"/ProductDetails"}
                           to={`/ProductDetails/${element.id}`}
                           state={{
                             currentvideo: element,
                             related: ShopDetails,
                           }}
-                        >
+                        > */}
                           <div id="product-2" class="single-product">
                             <div class="part-1">
                               <img
@@ -127,22 +125,31 @@ export default function Shop() {
                                 {element.Discount} off
                               </span>
                               <ul>
-                                <li>
-                                  <NavLink to="/Cart">
+                                {/* <li 
+                                onClick={()=>{
+                                addToCart(element)
+                                }}
+                                >
                                     <i>
                                       <BsCart3 />
                                     </i>
-                                  </NavLink>
-                                </li>
+                                </li> */}
                                 <li>
-                                  <NavLink to="/#">
+                                  <NavLink to={"/Login"}>
                                     <i>
                                       <BsHeart />
                                     </i>
                                   </NavLink>
                                 </li>
                                 <li>
-                                  <NavLink to="/ProductDetails">
+                                  <NavLink
+                                    key={"/ProductDetails"}
+                                    to={`/ProductDetails/${element.id}`}
+                                    state={{
+                                      currentvideo: element,
+                                      related: ShopDetails,
+                                    }}
+                                  >
                                     <i>
                                       <BsEye />
                                     </i>
@@ -155,7 +162,7 @@ export default function Shop() {
                               <h4 class="product-price">${element.Price}</h4>
                             </div>
                           </div>
-                        </NavLink>
+                        {/* </NavLink> */}
                       </div>
                     </>
                   );
