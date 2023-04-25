@@ -3883,7 +3883,7 @@ h6.send-plus {
   max-width: 450px;
   padding: 15px;
   border-radius: 15px;
-  background:#fff;
+  /* background:#fff; */
 }
 span.emoji {
   font-size: 15px;
@@ -3958,6 +3958,7 @@ h5.send-bn {
     height: 506px;
     width: 100%;
     background: #020202;
+    /* background-image: linear-gradient(180deg, #3e030e, #321a2ee6); */
 }
 /* //////////////////// */
 .Toastify {
@@ -4292,4 +4293,9 @@ span.password {
     padding: 3px 0px;
     margin: 3px 0px 0px 3px;
     font-weight: 700 !important;
+}
+.error-selected {
+    color: #000;
+    font-size: 13px;
+    text-align: center;
 }

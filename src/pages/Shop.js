@@ -26,7 +26,7 @@ export default function Shop() {
   }, []);
   return (
     <>
-      {/* <HeaderBottamSection /> */}
+      <HeaderBottamSection />
       <section className="new-store">
         <Swiper slidesPerView={1} navigation={true} modules={[Navigation]}>
           {ShopDetails.map((element) => {

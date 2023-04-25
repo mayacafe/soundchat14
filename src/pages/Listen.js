@@ -63,7 +63,6 @@ function ListenSection() {
           `https://app.soundchatradio.com:3000/api/v1/auth/listshowschedule`
         )
         .then((response) => {
-          //console.log(response.data);
           setLiveShow(response.data.data);
         })
         .catch((error) => {
@@ -76,29 +75,26 @@ function ListenSection() {
       if (LiveShow[i].post_title === day) {
         setLiveShowsData(LiveShow[i].scheduleperdays);
         for (let j = 0; j < LiveShow[i].scheduleperdays.length; j++) {
-          let starttime =
-            LiveShow[i].scheduleperdays[j].show_start_date.split(":");
+          let starttime = LiveShow[i].scheduleperdays[j].show_start_date.split(":");
           let endtime = LiveShow[i].scheduleperdays[j].show_end_date.split(":");
           let currenttime = time.split(":");
           //console.log(starttime[0], endtime[0], currenttime[0], time, "sdghfg");
-          // if (
-          //   parseInt(starttime[0]) < parseInt(currenttime[0]) &&
-          //   parseInt(endtime[0]) > parseInt(currenttime[0])
-          // ) {
+          if (
+            parseInt(starttime[0]) <= parseInt(currenttime[0]) &&
+            parseInt(endtime[0]) > parseInt(currenttime[0])
+          ) {
           //   console.log("okay");
             setShowTimeData({
               show_name: LiveShow[i].scheduleperdays[j].show_name,
               show_audio_url: LiveShow[i].scheduleperdays[j].show_audio_url,
               show_image: LiveShow[i].scheduleperdays[j].show_image,
             });
-          // }
+           }
         }
       }
     }
   }, [LiveShow]);
   // console.log(ShowTimeData, "show");
-
-  //
   const [waveClass, setwaveClass] = useState("box");
   const [LiveAudio, setLiveAudio] = useState([]);
   useEffect(() => {

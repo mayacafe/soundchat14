@@ -1,9 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { BsFillCursorFill ,BsPlusCircle,BsImages,BsEmojiSmileFill} from "react-icons/bs";
-
+import {
+  BsFillCursorFill,
+  BsPlusCircle,
+  BsImages,
+  BsEmojiSmileFill,
+} from "react-icons/bs";
+import axios from "axios";
 function Chatting() {
+  const [ChatMessage, setChatMessage] = useState([]);
+
+  useEffect(() => {
+    // trackPromise(
+    axios
+      .get(`https://chat.soundchatradio.com:8000/group_chat_history`)
+      .then((response) => {
+        console.log(response, "chat");
+        setChatMessage(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // );
+  }, []);
   return (
     <>
       <div className="chatting-new-window">
@@ -23,157 +43,102 @@ function Chatting() {
                 </header>
 
                 <main class="msger-chat">
-                  <div class="msg left-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">BOT</div>
-                        <div class="msg-info-time">12:45</div>
-                      </div>
-
-                      <div class="msg-text">
-                        Hi, welcome to SimpleChat! Go ahead and send me a
-                        message. 😄
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="msg right-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">Sajad</div>
-                        <div class="msg-info-time">12:46</div>
-                      </div>
-
-                      <div class="msg-text">
-                        You can change your name in JS section!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="msg left-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">BOT</div>
-                        <div class="msg-info-time">12:45</div>
-                      </div>
-
-                      <div class="msg-text">
-                        Hi, welcome to SimpleChat! Go ahead and send me a
-                        message. 😄
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="msg right-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">Sajad</div>
-                        <div class="msg-info-time">12:46</div>
-                      </div>
-
-                      <div class="msg-text">
-                        You can change your name in JS section!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="msg left-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">BOT</div>
-                        <div class="msg-info-time">12:45</div>
-                      </div>
-
-                      <div class="msg-text">
-                        Hi, welcome to SimpleChat! Go ahead and send me a
-                        message. 😄
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="msg right-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">Sajad</div>
-                        <div class="msg-info-time">12:46</div>
-                      </div>
-
-                      <div class="msg-text">
-                        You can change your name in JS section!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="msg left-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">BOT</div>
-                        <div class="msg-info-time">12:45</div>
-                      </div>
-
-                      <div class="msg-text">
-                        Hi, welcome to SimpleChat! Go ahead and send me a
-                        message. 😄
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="msg right-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">Sajad</div>
-                        <div class="msg-info-time">12:46</div>
-                      </div>
-
-                      <div class="msg-text">
-                        You can change your name in JS section!
-                      </div>
-                    </div>
-                  </div>
-                  <div class="msg left-msg">
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">BOT</div>
-                        <div class="msg-info-time">12:45</div>
-                      </div>
-
-                      <div class="msg-text">
-                        Hi, welcome to SimpleChat! Go ahead and send me a
-                        message. 😄
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="msg right-msg">
-                    {/* <div
-                   class="msg-img"
-                   style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"
-                   ></div> */}
-
-                    <div class="msg-bubble">
-                      <div class="msg-info">
-                        <div class="msg-info-name">Sajad</div>
-                        <div class="msg-info-time">12:46</div>
-                      </div>
-
-                      <div class="msg-text">
-                        You can change your name in JS section!
-                      </div>
-                    </div>
-                  </div>
+                  {ChatMessage.map((chat) => {
+                    return (
+                      <>
+                        {chat.name === "fyapp1965@gmail.com." ? (
+                          <>
+                            <div class="msg right-msg">
+                              <div
+                                class="msg-bubble"
+                                style={{
+                                  backgroundColor:
+                                    "#" + chat.messageBubbleColor.slice(2),
+                                }}
+                              >
+                                <div class="msg-info">
+                                  <div
+                                    class="msg-info-name"
+                                    style={{ color: "yellow" }}
+                                  >
+                                    {chat.name}
+                                  </div>
+                                </div>
+                                <div
+                                  class="msg-text"
+                                  style={{
+                                    color: "#" + chat.textColor.slice(2),
+                                  }}
+                                >
+                                  {chat.messageType === "text" ? (
+                                    <> {chat.message}</>
+                                  ) : (
+                                    <>
+                                      <img src={chat.message} alt="my-gif" />
+                                    </>
+                                  )}
+                                  <div class="msg-info-time">12:46</div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div class="msg left-msg">
+                              <div
+                                style={{
+                                  backgroundColor:
+                                    "#" + chat.messageBubbleColor.slice(2),
+                                }}
+                                class="msg-bubble"
+                              >
+                                <div class="msg-info">
+                                  <div
+                                    class="msg-info-name"
+                                    style={{ color: "yellow" }}
+                                  >
+                                    {chat.name}
+                                  </div>
+                                </div>
+                                <div
+                                  class="msg-text"
+                                  style={{
+                                    color: "#" + chat.textColor.slice(2),
+                                  }}
+                                >
+                                  {chat.messageType === "text" ? (
+                                    <> {chat.message}</>
+                                  ) : (
+                                    <>
+                                      <img src={chat.message} alt="my-gif" />
+                                    </>
+                                  )}
+                                  <div class="msg-info-time">
+                                    {chat.createdAt}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </>
+                    );
+                  })}
                 </main>
-                <footer class="msg-chatt-footer">
-                <h6 className="send-plus">
-                      <BsPlusCircle />
-                    </h6>
 
-                    <h6 className="send-plus">
-                      <BsImages />
-                    </h6>
-                    
+                <footer class="msg-chatt-footer">
+                  <h6 className="send-plus">
+                    <BsPlusCircle />
+                  </h6>
+                  <h6 className="send-plus">
+                    <BsImages />
+                  </h6>
                   <input
                     type="text"
                     class="msg-chatt-text"
                     placeholder="Write a message..."
                     autocomplete="off"
-                    style={{color:"#000 !importants"}}
+                    style={{ color: "#000 !importants" }}
                   />
                   <button
                     class="btn btn--send"
@@ -181,7 +146,7 @@ function Chatting() {
                     tabindex="0"
                   >
                     <span className="emoji">
-                      <BsEmojiSmileFill/>
+                      <BsEmojiSmileFill />
                     </span>
                     <h5 className="send-bn">
                       <BsFillCursorFill />

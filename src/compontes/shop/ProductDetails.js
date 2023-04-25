@@ -7,12 +7,18 @@ import FooterSection from "../layout/FooterSection";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { NavLink, json, useNavigate  } from "react-router-dom";
 import { BsCart3, BsHeart, BsEye } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { useParams } from "react-router-dom";
 function ProductDetails() {
+  const showToastMessage = (data) => {
+    toast.success(data, {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
   const params = useParams();
   const [counter, setCounter] = useState(1);
   const handleClick1 = () => {
@@ -25,14 +31,14 @@ function ProductDetails() {
   const [SizeDetails, setSize] = useState([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [ErrorSize, setErrorSize] = useState('');
+  const [ErrorColor, setErrorColor] = useState('')
 
   const setColor = (item) => {
     setSelectedColor(item);
-    // onSelectedColorChange(color);
   }
   const setSizeItem = (item) => {
     setSelectedSize(item);
-    // onSelectedColorChange(color);
   }
 
 
@@ -65,11 +71,24 @@ function ProductDetails() {
   
 const jsonItems = JSON.parse(localStorage.getItem("card"));
 function addToCart (){
-   ShopDetails.quantity = counter
+  // ShopDetails.sizeItem =  selectedSize === "" ? setErrorSize("plz selected size") :selectedSize;
+  // ShopDetails.colorItem = selectedColor === "" ?setErrorSize("plz selected size") :selectedColor;
+  if((selectedSize === ""  && selectedColor === "") ||(selectedSize === ""  && selectedColor) || (selectedSize && selectedColor === "") ||(selectedColor === "") || (selectedSize === "") ){
+    setErrorSize("plz selected size") 
+    setErrorColor("plz selected color") 
+  }else{
+    showToastMessage("item added in card successfully")
+  ShopDetails.sizeItem = selectedSize;
+  ShopDetails.colorItem = selectedColor;
+  ShopDetails.quantity =  counter;
    jsonItems.cart_items.push(ShopDetails)
    localStorage.removeItem('card')
    localStorage.setItem("card",JSON.stringify(jsonItems))
- 
+   setSelectedColor("");
+   setSelectedSize("");
+  }
+   
+   
 }
 
 useEffect(() => {
@@ -135,32 +154,22 @@ useEffect(() => {
                     <div className="col-md-6">
                       <div class="product-variation product-size-variation">
                         <label class="product-label-text">Size:</label>
-                        {/* <ul class="range-variant">
-                          {SizeDetails.map((item) => {
-                            return (
-                              <>
-                                {" "}
-                                <li  >{item.size}</li>
-                              </>
-                            );
-                          })}
-                        </ul> */}
                          <div className="color-chooser">
                           {SizeDetails.map((item) => {
                             return (
                               <>
                                 {" "}
                                 <div
-                                  className={selectedSize === item ? 'color-item-1 color-item-selected-1' : 'color-item-1'}
-                                  // style={{ backgroundColor: item.hexcode }}
-                  
+                                  className={selectedSize === item.size ? 'color-item-1 color-item-selected-1' : 'color-item-1'}
                                   role="presentation"
-                                  onClick={() => setSizeItem(item)}
-                                >{item.size}</div>
+                                  onClick={() => setSizeItem(item.size)}
+                                >{item.size}</div>   
                               </>
                             );
                           })}
                         </div>
+                        
+                        <div>{(selectedSize==="") ? ErrorSize : <></>}</div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -172,22 +181,22 @@ useEffect(() => {
                               <>
                                 {" "}
                                 <div
-                                  className={selectedColor === item ? 'color-item color-item-selected' : 'color-item'}
-                                  // style={{ backgroundColor: item.hexcode }}
-                                  style={{ backgroundColor: item.hexcode }}
+                                  className={selectedColor === item.color ? 'color-item color-item-selected' : 'color-item'}
+                                  style={{ backgroundColor: item.color }}
                                   role="presentation"
-                                  onClick={() => setColor(item)}
-                                >{selectedColor === item ? <AiOutlineCheck className="icon-color-size"/> :null}</div>
+                                  onClick={() => setColor(item.color)}
+                                >{selectedColor === item.color ? <AiOutlineCheck className="icon-color-size"/> :null}</div>
+                               
                               </>
                             );
                           })}
                         </div>
+                        <div>{(selectedColor==="") ? ErrorColor : <></>}</div>
                       </div>
                     </div>
                   </div>
                   <div class="product-count">
                     <label for="size">Quantity:</label>
-
                     <form action="#" class="display-flex mt-3">
                       <div class="qtyminus" onClick={handleClick1}>
                         -
